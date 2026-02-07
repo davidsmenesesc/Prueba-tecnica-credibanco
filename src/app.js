@@ -46,6 +46,12 @@ app.get('/api/sum/:a/:b', (req, res) => {
   });
 });
 
+// Ruta de prueba para error handling
+app.get('/api/error', (req, res, next) => {
+  const error = new Error('Test error');
+  next(error);
+});
+
 // Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);

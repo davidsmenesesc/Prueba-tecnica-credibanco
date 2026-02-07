@@ -65,4 +65,10 @@ describe('Error Handling', () => {
     const res = await request(app).get('/nonexistent');
     expect(res.statusCode).toBe(404);
   });
+
+  it('should handle internal server errors', async () => {
+    const res = await request(app).get('/api/error');
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBeDefined();
+  });
 });
