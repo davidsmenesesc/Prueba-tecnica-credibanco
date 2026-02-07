@@ -173,28 +173,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - name: Update image reference in values.yaml
+      - name: Update image tag in values.yaml
         run: |
-          sed -i "s|image: .*|image: credibanco-app:${{ github.sha }}|g" helm/credibanco-app/values.yaml
+          sed -i 's/tag: .*/tag: "${{ github.sha }}"/' helm/credibanco-app/values.yaml
+      
+      - name: Verify values.yaml update
+        run: |
+          grep -A 2 "image:" helm/credibanco-app/values.yaml
       
       - name: Commit and push updated values
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add helm/credibanco-app/values.yaml
-          git commit -m "chore: update image to ${{ github.sha }}" || echo "No changes to commit"
-          git push
-        continue-on-error: true
-      
-      - name: Trigger ArgoCD sync (opcional)
-        run: |
-          echo "ArgoCD sync would be triggered here"
-          echo "Comando: argocd app sync credibanco-app"
-        continue-on-error: true
+          git commit -m "chore: update image tag to ${{ github.sha }}" || echo "No changes to commit"
+          git push origin main
+        continue-on-error: false
 
 # ====== NOTIFICACIONES ======
-# Puedes agregar notificaciones en Slack, Teams, etc.
-# En caso de fallo, descomenta:
 
   notify-failure:
     name: Notify on Failure

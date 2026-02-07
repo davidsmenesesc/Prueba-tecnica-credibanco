@@ -12,16 +12,11 @@ spec:
   project: default
   
   source:
-    repoURL: https://github.com/tu-usuario/tu-repositorio  # Cambiar por tu repo
+    repoURL: https://github.com/davidsmenesesc/Prueba-tecnica-credibanco.git
     targetRevision: main
     path: helm/credibanco-app
     helm:
       releaseName: credibanco
-      values: |
-        image:
-          repository: credibanco-app
-          tag: latest
-        replicaCount: 3
   
   destination:
     server: https://kubernetes.default.svc
