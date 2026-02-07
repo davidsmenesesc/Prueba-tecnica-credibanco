@@ -183,18 +183,17 @@ jobs:
       
       - name: Verify values.yaml update
         run: |
-          grep -A 2 "image:" helm/credibanco-app/values.yaml
+          cat helm/credibanco-app/values.yaml | head -10
       
       - name: Commit and push updated values
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add helm/credibanco-app/values.yaml
-          git commit -m "chore: update image tag to ${{ github.sha }}" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git main
-        continue-on-error: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: 'GitHub Action'
+          author_email: 'action@github.com'
+          message: 'chore: update image tag to ${{ github.sha }}'
+          add: 'helm/credibanco-app/values.yaml'
+          push: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
 # ====== NOTIFICACIONES ======
 
