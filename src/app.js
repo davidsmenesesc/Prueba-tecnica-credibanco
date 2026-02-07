@@ -46,16 +46,28 @@ app.get('/api/sum/:a/:b', (req, res) => {
   });
 });
 
-// Ruta de prueba para error handling
-app.get('/api/error', (req, res, next) => {
-  const error = new Error('Test error');
-  next(error);
+app.get('/api/divide/:a/:b', (req, res, next) => {
+  const a = parseInt(req.params.a, 10);
+  const b = parseInt(req.params.b, 10);
+  
+  if (b === 0) {
+    const error = new Error('Division by zero is not allowed');
+    error.statusCode = 400;
+    return next(error);
+  }
+  
+  return res.json({
+    result: a / b,
+    a: a,
+    b: b
+  });
 });
 
 // Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: 'Internal Server Error' });
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({ error: err.message });
 });
 
 // Iniciar servidor

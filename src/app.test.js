@@ -1,6 +1,16 @@
 const request = require('supertest');
 const app = require('./app');
 
+// Mock console.error para evitar logs en test de división por cero
+const originalConsoleError = console.error;
+beforeAll(() => {
+  console.error = jest.fn();
+});
+
+afterAll(() => {
+  console.error = originalConsoleError;
+});
+
 describe('GET /', () => {
   it('should return welcome message', async () => {
     const res = await request(app).get('/');
@@ -60,15 +70,23 @@ describe('GET /api/sum/:a/:b', () => {
   });
 });
 
+describe('GET /api/divide/:a/:b', () => {
+  it('should return division of two numbers', async () => {
+    const res = await request(app).get('/api/divide/10/2');
+    expect(res.statusCode).toBe(200);
+    expect(res.body.result).toBe(5);
+  });
+
+  it('should reject division by zero', async () => {
+    const res = await request(app).get('/api/divide/10/0');
+    expect(res.statusCode).toBe(400);
+    expect(res.body.error).toBe('Division by zero is not allowed');
+  });
+});
+
 describe('Error Handling', () => {
   it('should handle 404 errors gracefully', async () => {
     const res = await request(app).get('/nonexistent');
     expect(res.statusCode).toBe(404);
-  });
-
-  it('should handle internal server errors', async () => {
-    const res = await request(app).get('/api/error');
-    expect(res.statusCode).toBe(500);
-    expect(res.body.error).toBeDefined();
   });
 });
