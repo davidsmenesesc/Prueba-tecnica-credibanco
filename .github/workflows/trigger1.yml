@@ -187,8 +187,10 @@ jobs:
           git config --local user.name "GitHub Action"
           git add helm/credibanco-app/values.yaml
           git commit -m "chore: update image tag to ${{ github.sha }}" || echo "No changes to commit"
-          git push origin main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git main
         continue-on-error: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 # ====== NOTIFICACIONES ======
 
