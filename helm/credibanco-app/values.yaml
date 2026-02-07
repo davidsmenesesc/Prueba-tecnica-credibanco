@@ -5,7 +5,7 @@ replicaCount: 3
 image:
   repository: davidsmenesesc/credibanco-app
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "314f8d892ae83babd66ffd8ed27daa22ac24b0ac"
 
 imagePullSecrets: []
 nameOverride: ""
