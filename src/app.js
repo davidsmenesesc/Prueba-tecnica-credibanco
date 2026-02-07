@@ -9,8 +9,8 @@ app.use(express.json());
 // Rutas
 app.get('/', (req, res) => {
   res.json({
-    message: 'Bienvenido a Credibanco DevSecOps',
-    version: '1.0.0',
+    message: 'Bienvenido a Credibanco DevSecOps - GitOps Pipeline',
+    version: '2.0.0',
     status: 'OK'
   });
 });
