@@ -15,7 +15,7 @@ describe('GET /', () => {
   it('should return welcome message', async () => {
     const res = await request(app).get('/');
     expect(res.statusCode).toBe(200);
-    expect(res.body.message).toBe('Bienvenido a Credibanco DevSecOps');
+    expect(res.body.message).toBe('Bienvenido a Credibanco DevSecOps - GitOps Pipeline');
     expect(res.body.status).toBe('OK');
   });
 });
