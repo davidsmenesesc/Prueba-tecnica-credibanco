@@ -3,7 +3,7 @@
 replicaCount: 3
 
 image:
-  repository: credibanco-app
+  repository: davidsmenesesc/credibanco-app
   pullPolicy: IfNotPresent
   tag: "latest"
 
