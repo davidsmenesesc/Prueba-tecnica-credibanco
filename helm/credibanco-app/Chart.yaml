@@ -1,0 +1,13 @@
+apiVersion: v2
+name: credibanco-app
+description: Helm chart para la aplicación Credibanco DevSecOps
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - credibanco
+  - devsecops
+  - kubernetes
+maintainers:
+  - name: DevSecOps Team
+    email: team@credibanco.com

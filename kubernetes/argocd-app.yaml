@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: credibanco
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: credibanco-app
+  namespace: argocd
+spec:
+  project: default
+  
+  source:
+    repoURL: https://github.com/tu-usuario/tu-repositorio  # Cambiar por tu repo
+    targetRevision: main
+    path: helm/credibanco-app
+    helm:
+      releaseName: credibanco
+      values: |
+        image:
+          repository: credibanco-app
+          tag: latest
+        replicaCount: 3
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: credibanco
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
